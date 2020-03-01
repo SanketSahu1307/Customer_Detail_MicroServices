@@ -29,14 +29,13 @@ public class CustomerService{
 
 	public void deleteCustomer(Long id) {
 //		customer_dao.deleteById(id);
-		Optional<Customer> usr=customer_dao.findById(id);
+		Optional<Customer>usr=customer_dao.findById(id);
 		if (usr.get()==null) {
 			throw new UserNotFoundException("not find with Id"+id);
 		}
 		else {
 			customer_dao.deleteById(id);
 		}
-		return;
 	}
 
 	public Customer getUpdateById(Customer customerModal) {

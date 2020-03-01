@@ -1,11 +1,27 @@
 package com.example.demo.modal;
 
 import java.util.Date;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import org.aspectj.apache.bcel.ExceptionConstants;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Entity
@@ -14,366 +30,530 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private Long cid;
+	
+	@Column(nullable = false)
+	private Long categoryId;
+	
+	@NotBlank(message = "sellername is required.")
 	private String sellerName;
-	private Date date;
-	private String customer_Name;
-	private String persent_Add;
-	private String native_Add;
-	private String mobile_No;
-	private String ref_mobile_No;
-	private String ref_name;
-	private String email_id;
-	private String pan_number;
-	private String adhar_no;
-	private Date DOB;
-	private String dog;
-	private String hsn;
-	private String purchase_amt;
-	private String gst;
-	private String gst_amt;
-	private String total_amt;
-	private String amount;
-	private String processing_fees;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "dd-MM-yyyy")
+	private Date purchaseDate;
+	
+//	@NotBlank
+	private String customerName;
+	
+	@NotBlank(message = "please enter your present address.")
+	private String presentAddress;
+	
+	private String nativeAddress;
+	
+	@NotBlank(message = "please enter mobile number!")
+//	@Pattern(regexp="\\(\\d{3}\\)\\d{3}-\\d{4}")
+	private String contactNumber;
+	
+	private String referenceNumber;
+	
+	@NotBlank(message = "please enter reference name")
+	private String referenceName;
+	
+	@Email(message = "enter valid email address.")
+	private String emailId;
+	
+//	@Pattern(regexp = "/[A-Z]{5}\\d{4}[A-Z]{1}/i")
+	private String panNumber;
+	
+	@Pattern(regexp = "^\\d{4}\\s\\d{4}\\s\\d{4}$")
+	private String adharNumber;
+	
+	@NotNull(message = "please enter date of birth")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private Date dateOfBirth;
+	
+	@NotBlank(message = "description of goods should not be empty")
+	private String descriptionOfGoods;
+	
+	@NotNull(message = "HSN/SAC should not be blank.")
+	private String hsnNumber;
+	
+	@Positive(message = "please enter valid amount.")
+	private Double purchaseAmount;
+	
+	@NotBlank(message = "gst rate should not be empty")
+	private String gstRate;
+	
+	@Positive(message = "please enter valid GST amount.")
+	private Double gstAmount;
+	
+	@Positive(message = "please enter valid total amount.")
+	private Double totalAmount;
+	
+	@Positive(message = "please enter valid amount.")
+	private Double amount;
+	
+	@Positive(message = "please enter valid processing fees.")
+	private Double processingFees;
+	
+//	@NotBlank
 	private String warranty;
-	private String dep_amt;
+	
+	private Double depositAmount;
+	
 	private String document;
-	private String bal_amt;
-	private String emi_amt;
-	private Date emi_from;
-	private Date emi_to;
-	private String emi_month;
-	private String weekly_amt;
-	private String weekly_amt_day;
-	private Date weekly_due_from;
-	private Date weekly_due_to;
-	private String daily_amt;
-	private String daily_amt_day;
-	private Date daily_due_from;
-	private Date daily_due_to;
-	private String bank_name;
-	private String branch_name;
-	private String cheque_number;
+	
+	private Double balAmount;
+	
+	private Double emiAmount;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "dd-MM-yyyy")
+	private Date emiFrom;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "dd-MM-yyyy")
+	private Date emiTo;
+	
+	private String emiMonth;
+	
+	private Double weeklyAmount;
+	
+	private String weeklyAmtDay;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "dd-MM-yyyy")
+	private Date weeklyDueFrom;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "dd-MM-yyyy")
+	private Date weeklyDueTo;
+	
+	
+	private Double dailyAmount;
+	
+	private String dailyAmountDay;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "dd-MM-yyyy")
+	private Date dailyDueFrom;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "dd-MM-yyyy")
+	private Date dailyDueTo;
+
+	private String bankName;
+	
+	private String branchName;
+	
+	private String chequeNumber;
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getCid() {
-		return cid;
+
+	public Long getCategoryId() {
+		return categoryId;
 	}
-	public void setCid(Long cid) {
-		this.cid = cid;
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
+
 	public String getSellerName() {
 		return sellerName;
 	}
+
 	public void setSellerName(String sellerName) {
 		this.sellerName = sellerName;
 	}
-	public Date getDate() {
-		return date;
+
+	public Date getPurchaseDate() {
+		return purchaseDate;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+
+	public void setPurchaseDate(Date purchaseDate) {
+		this.purchaseDate = purchaseDate;
 	}
-	public String getCustomer_Name() {
-		return customer_Name;
+
+	public String getCustomerName() {
+		return customerName;
 	}
-	public void setCustomer_Name(String customer_Name) {
-		this.customer_Name = customer_Name;
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
-	public String getPersent_Add() {
-		return persent_Add;
+
+	public String getPresentAddress() {
+		return presentAddress;
 	}
-	public void setPersent_Add(String persent_Add) {
-		this.persent_Add = persent_Add;
+
+	public void setPresentAddress(String presentAddress) {
+		this.presentAddress = presentAddress;
 	}
-	public String getNative_Add() {
-		return native_Add;
+
+	public String getNativeAddress() {
+		return nativeAddress;
 	}
-	public void setNative_Add(String native_Add) {
-		this.native_Add = native_Add;
+
+	public void setNativeAddress(String nativeAddress) {
+		this.nativeAddress = nativeAddress;
 	}
-	public String getMobile_No() {
-		return mobile_No;
+
+	public String getContactNumber() {
+		return contactNumber;
 	}
-	public void setMobile_No(String mobile_No) {
-		this.mobile_No = mobile_No;
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
-	public String getRef_mobile_No() {
-		return ref_mobile_No;
+
+	public String getReferenceNumber() {
+		return referenceNumber;
 	}
-	public void setRef_mobile_No(String ref_mobile_No) {
-		this.ref_mobile_No = ref_mobile_No;
+
+	public void setReferenceNumber(String referenceNumber) {
+		this.referenceNumber = referenceNumber;
 	}
-	public String getRef_name() {
-		return ref_name;
+
+	public String getReferenceName() {
+		return referenceName;
 	}
-	public void setRef_name(String ref_name) {
-		this.ref_name = ref_name;
+
+	public void setReferenceName(String referenceName) {
+		this.referenceName = referenceName;
 	}
-	public String getEmail_id() {
-		return email_id;
+
+	public String getEmailId() {
+		return emailId;
 	}
-	public void setEmail_id(String email_id) {
-		this.email_id = email_id;
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
-	public String getPan_number() {
-		return pan_number;
+
+	public String getPanNumber() {
+		return panNumber;
 	}
-	public void setPan_number(String pan_number) {
-		this.pan_number = pan_number;
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
 	}
-	public String getAdhar_no() {
-		return adhar_no;
+
+	public String getAdharNumber() {
+		return adharNumber;
 	}
-	public void setAdhar_no(String adhar_no) {
-		this.adhar_no = adhar_no;
+
+	public void setAdharNumber(String adharNumber) {
+		this.adharNumber = adharNumber;
 	}
-	public Date getDOB() {
-		return DOB;
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
 	}
-	public void setDOB(Date dOB) {
-		DOB = dOB;
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
-	public String getDog() {
-		return dog;
+
+	public String getDescriptionOfGoods() {
+		return descriptionOfGoods;
 	}
-	public void setDog(String dog) {
-		this.dog = dog;
+
+	public void setDescriptionOfGoods(String descriptionOfGoods) {
+		this.descriptionOfGoods = descriptionOfGoods;
 	}
-	public String getHsn() {
-		return hsn;
+
+	public String getHsnNumber() {
+		return hsnNumber;
 	}
-	public void setHsn(String hsn) {
-		this.hsn = hsn;
+
+	public void setHsnNumber(String hsnNumber) {
+		this.hsnNumber = hsnNumber;
 	}
-	public String getPurchase_amt() {
-		return purchase_amt;
+
+	public Double getPurchaseAmount() {
+		return purchaseAmount;
 	}
-	public void setPurchase_amt(String purchase_amt) {
-		this.purchase_amt = purchase_amt;
+
+	public void setPurchaseAmount(Double purchaseAmount) {
+		this.purchaseAmount = purchaseAmount;
 	}
-	public String getGst() {
-		return gst;
+
+	public String getGstRate() {
+		return gstRate;
 	}
-	public void setGst(String gst) {
-		this.gst = gst;
+
+	public void setGstRate(String gstRate) {
+		this.gstRate = gstRate;
 	}
-	public String getGst_amt() {
-		return gst_amt;
+
+	public Double getGstAmount() {
+		return gstAmount;
 	}
-	public void setGst_amt(String gst_amt) {
-		this.gst_amt = gst_amt;
+
+	public void setGstAmount(Double gstAmount) {
+		this.gstAmount = gstAmount;
 	}
-	public String getTotal_amt() {
-		return total_amt;
+
+	public Double getTotalAmount() {
+		return totalAmount;
 	}
-	public void setTotal_amt(String total_amt) {
-		this.total_amt = total_amt;
+
+	public void setTotalAmount(Double totalAmount) {
+		this.totalAmount = totalAmount;
 	}
-	public String getAmount() {
+
+	public Double getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
-	public String getProcessing_fees() {
-		return processing_fees;
+
+	public Double getProcessingFees() {
+		return processingFees;
 	}
-	public void setProcessing_fees(String processing_fees) {
-		this.processing_fees = processing_fees;
+
+	public void setProcessingFees(Double processingFees) {
+		this.processingFees = processingFees;
 	}
+
 	public String getWarranty() {
 		return warranty;
 	}
+
 	public void setWarranty(String warranty) {
 		this.warranty = warranty;
 	}
-	public String getDep_amt() {
-		return dep_amt;
+
+	public Double getDepositAmount() {
+		return depositAmount;
 	}
-	public void setDep_amt(String dep_amt) {
-		this.dep_amt = dep_amt;
+
+	public void setDepositAmount(Double depositAmount) {
+		this.depositAmount = depositAmount;
 	}
+
 	public String getDocument() {
 		return document;
 	}
+
 	public void setDocument(String document) {
 		this.document = document;
 	}
-	public String getBal_amt() {
-		return bal_amt;
+
+	public Double getBalAmount() {
+		return balAmount;
 	}
-	public void setBal_amt(String bal_amt) {
-		this.bal_amt = bal_amt;
+
+	public void setBalAmount(Double balAmount) {
+		this.balAmount = balAmount;
 	}
-	public String getEmi_amt() {
-		return emi_amt;
+
+	public Double getEmiAmount() {
+		return emiAmount;
 	}
-	public void setEmi_amt(String emi_amt) {
-		this.emi_amt = emi_amt;
+
+	public void setEmiAmount(Double emiAmount) {
+		this.emiAmount = emiAmount;
 	}
-	public Date getEmi_from() {
-		return emi_from;
+
+	public Date getEmiFrom() {
+		return emiFrom;
 	}
-	public void setEmi_from(Date emi_from) {
-		this.emi_from = emi_from;
+
+	public void setEmiFrom(Date emiFrom) {
+		this.emiFrom = emiFrom;
 	}
-	public Date getEmi_to() {
-		return emi_to;
+
+	public Date getEmiTo() {
+		return emiTo;
 	}
-	public void setEmi_to(Date emi_to) {
-		this.emi_to = emi_to;
+
+	public void setEmiTo(Date emiTo) {
+		this.emiTo = emiTo;
 	}
-	public String getEmi_month() {
-		return emi_month;
+
+	public String getEmiMonth() {
+		return emiMonth;
 	}
-	public void setEmi_month(String emi_month) {
-		this.emi_month = emi_month;
+
+	public void setEmiMonth(String emiMonth) {
+		this.emiMonth = emiMonth;
 	}
-	public String getWeekly_amt() {
-		return weekly_amt;
+
+	public Double getWeeklyAmount() {
+		return weeklyAmount;
 	}
-	public void setWeekly_amt(String weekly_amt) {
-		this.weekly_amt = weekly_amt;
+
+	public void setWeeklyAmount(Double weeklyAmount) {
+		this.weeklyAmount = weeklyAmount;
 	}
-	public String getWeekly_amt_day() {
-		return weekly_amt_day;
+
+	public String getWeeklyAmtDay() {
+		return weeklyAmtDay;
 	}
-	public void setWeekly_amt_day(String weekly_amt_day) {
-		this.weekly_amt_day = weekly_amt_day;
+
+	public void setWeeklyAmtDay(String weeklyAmtDay) {
+		this.weeklyAmtDay = weeklyAmtDay;
 	}
-	public Date getWeekly_due_from() {
-		return weekly_due_from;
+
+	public Date getWeeklyDueFrom() {
+		return weeklyDueFrom;
 	}
-	public void setWeekly_due_from(Date weekly_due_from) {
-		this.weekly_due_from = weekly_due_from;
+
+	public void setWeeklyDueFrom(Date weeklyDueFrom) {
+		this.weeklyDueFrom = weeklyDueFrom;
 	}
-	public Date getWeekly_due_to() {
-		return weekly_due_to;
+
+	public Date getWeeklyDueTo() {
+		return weeklyDueTo;
 	}
-	public void setWeekly_due_to(Date weekly_due_to) {
-		this.weekly_due_to = weekly_due_to;
+
+	public void setWeeklyDueTo(Date weeklyDueTo) {
+		this.weeklyDueTo = weeklyDueTo;
 	}
-	public String getDaily_amt() {
-		return daily_amt;
+
+	public Double getDailyAmount() {
+		return dailyAmount;
 	}
-	public void setDaily_amt(String daily_amt) {
-		this.daily_amt = daily_amt;
+
+	public void setDailyAmount(Double dailyAmount) {
+		this.dailyAmount = dailyAmount;
 	}
-	public String getDaily_amt_day() {
-		return daily_amt_day;
+
+	public String getDailyAmountDay() {
+		return dailyAmountDay;
 	}
-	public void setDaily_amt_day(String daily_amt_day) {
-		this.daily_amt_day = daily_amt_day;
+
+	public void setDailyAmountDay(String dailyAmountDay) {
+		this.dailyAmountDay = dailyAmountDay;
 	}
-	public Date getDaily_due_from() {
-		return daily_due_from;
+
+	public Date getDailyDueFrom() {
+		return dailyDueFrom;
 	}
-	public void setDaily_due_from(Date daily_due_from) {
-		this.daily_due_from = daily_due_from;
+
+	public void setDailyDueFrom(Date dailyDueFrom) {
+		this.dailyDueFrom = dailyDueFrom;
 	}
-	public Date getDaily_due_to() {
-		return daily_due_to;
+
+	public Date getDailyDueTo() {
+		return dailyDueTo;
 	}
-	public void setDaily_due_to(Date daily_due_to) {
-		this.daily_due_to = daily_due_to;
+
+	public void setDailyDueTo(Date dailyDueTo) {
+		this.dailyDueTo = dailyDueTo;
 	}
-	public String getBank_name() {
-		return bank_name;
+
+	public String getBankName() {
+		return bankName;
 	}
-	public void setBank_name(String bank_name) {
-		this.bank_name = bank_name;
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
-	public String getBranch_name() {
-		return branch_name;
+
+	public String getBranchName() {
+		return branchName;
 	}
-	public void setBranch_name(String branch_name) {
-		this.branch_name = branch_name;
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
-	public String getCheque_number() {
-		return cheque_number;
+
+	public String getChequeNumber() {
+		return chequeNumber;
 	}
-	public void setCheque_number(String cheque_number) {
-		this.cheque_number = cheque_number;
+
+	public void setChequeNumber(String chequeNumber) {
+		this.chequeNumber = chequeNumber;
+	}
+
+	public Customer(Long id, Long categoryId, @NotBlank(message = "sellername is required.") String sellerName,
+			Date purchaseDate, @NotBlank String customerName,
+			@NotBlank(message = "please enter your present address.") String presentAddress, String nativeAddress,
+			@NotBlank(message = "please enter mobile number!") @Pattern(regexp = "\\(\\d{3}\\)\\d{3}-\\d{4}") String contactNumber,
+			String referenceNumber, @NotBlank(message = "please enter reference name") String referenceName,
+			@Email(message = "enter valid email address.") String emailId,
+			@Pattern(regexp = "/[A-Z]{5}\\d{4}[A-Z]{1}/i") String panNumber,
+			@Pattern(regexp = "^\\d{4}\\s\\d{4}\\s\\d{4}$") String adharNumber,
+			@NotBlank(message = "please enter date of birth") Date dateOfBirth,
+			@NotBlank(message = "description of goods should not be empty") String descriptionOfGoods,
+			@NotNull(message = "HSN/SAC should not be blank.") String hsnNumber,
+			@Positive(message = "please enter valid amount.") Double purchaseAmount,
+			@NotBlank(message = "gst rate should not be empty") String gstRate,
+			@Positive(message = "please enter valid GST amount.") Double gstAmount,
+			@Positive(message = "please enter valid total amount.") Double totalAmount,
+			@Positive(message = "please enter valid amount.") Double amount,
+			@Positive(message = "please enter valid processing fees.") Double processingFees, @NotBlank String warranty,
+			Double depositAmount, String document, Double balAmount, Double emiAmount, Date emiFrom, Date emiTo,
+			String emiMonth, Double weeklyAmount, String weeklyAmtDay, Date weeklyDueFrom, Date weeklyDueTo,
+			Double dailyAmount, String dailyAmountDay, Date dailyDueFrom, Date dailyDueTo, String bankName,
+			String branchName, String chequeNumber) {
+		super();
+		this.id = id;
+		this.categoryId = categoryId;
+		this.sellerName = sellerName;
+		this.purchaseDate = purchaseDate;
+		this.customerName = customerName;
+		this.presentAddress = presentAddress;
+		this.nativeAddress = nativeAddress;
+		this.contactNumber = contactNumber;
+		this.referenceNumber = referenceNumber;
+		this.referenceName = referenceName;
+		this.emailId = emailId;
+		this.panNumber = panNumber;
+		this.adharNumber = adharNumber;
+		this.dateOfBirth = dateOfBirth;
+		this.descriptionOfGoods = descriptionOfGoods;
+		this.hsnNumber = hsnNumber;
+		this.purchaseAmount = purchaseAmount;
+		this.gstRate = gstRate;
+		this.gstAmount = gstAmount;
+		this.totalAmount = totalAmount;
+		this.amount = amount;
+		this.processingFees = processingFees;
+		this.warranty = warranty;
+		this.depositAmount = depositAmount;
+		this.document = document;
+		this.balAmount = balAmount;
+		this.emiAmount = emiAmount;
+		this.emiFrom = emiFrom;
+		this.emiTo = emiTo;
+		this.emiMonth = emiMonth;
+		this.weeklyAmount = weeklyAmount;
+		this.weeklyAmtDay = weeklyAmtDay;
+		this.weeklyDueFrom = weeklyDueFrom;
+		this.weeklyDueTo = weeklyDueTo;
+		this.dailyAmount = dailyAmount;
+		this.dailyAmountDay = dailyAmountDay;
+		this.dailyDueFrom = dailyDueFrom;
+		this.dailyDueTo = dailyDueTo;
+		this.bankName = bankName;
+		this.branchName = branchName;
+		this.chequeNumber = chequeNumber;
 	}
 	
 	public Customer() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public Customer(Long id, Long cid, String sellerName, Date date, String customer_Name, String persent_Add,
-			String native_Add, String mobile_No, String ref_mobile_No, String ref_name, String email_id,
-			String pan_number, String adhar_no, Date dOB, String dog, String hsn, String purchase_amt, String gst,
-			String gst_amt, String total_amt, String amount, String processing_fees, String warranty, String dep_amt,
-			String document, String bal_amt, String emi_amt, Date emi_from, Date emi_to, String emi_month,
-			String weekly_amt, String weekly_amt_day, Date weekly_due_from, Date weekly_due_to, String daily_amt,
-			String daily_amt_day, Date daily_due_from, Date daily_due_to, String bank_name, String branch_name,
-			String cheque_number) {
-		super();
-		this.id = id;
-		this.cid = cid;
-		this.sellerName = sellerName;
-		this.date = date;
-		this.customer_Name = customer_Name;
-		this.persent_Add = persent_Add;
-		this.native_Add = native_Add;
-		this.mobile_No = mobile_No;
-		this.ref_mobile_No = ref_mobile_No;
-		this.ref_name = ref_name;
-		this.email_id = email_id;
-		this.pan_number = pan_number;
-		this.adhar_no = adhar_no;
-		DOB = dOB;
-		this.dog = dog;
-		this.hsn = hsn;
-		this.purchase_amt = purchase_amt;
-		this.gst = gst;
-		this.gst_amt = gst_amt;
-		this.total_amt = total_amt;
-		this.amount = amount;
-		this.processing_fees = processing_fees;
-		this.warranty = warranty;
-		this.dep_amt = dep_amt;
-		this.document = document;
-		this.bal_amt = bal_amt;
-		this.emi_amt = emi_amt;
-		this.emi_from = emi_from;
-		this.emi_to = emi_to;
-		this.emi_month = emi_month;
-		this.weekly_amt = weekly_amt;
-		this.weekly_amt_day = weekly_amt_day;
-		this.weekly_due_from = weekly_due_from;
-		this.weekly_due_to = weekly_due_to;
-		this.daily_amt = daily_amt;
-		this.daily_amt_day = daily_amt_day;
-		this.daily_due_from = daily_due_from;
-		this.daily_due_to = daily_due_to;
-		this.bank_name = bank_name;
-		this.branch_name = branch_name;
-		this.cheque_number = cheque_number;
-	}
+
 	@Override
 	public String toString() {
-		return "Modal_Customer [id=" + id + ", cid=" + cid + ", sellerName=" + sellerName + ", date=" + date
-				+ ", customer_Name=" + customer_Name + ", persent_Add=" + persent_Add + ", native_Add=" + native_Add
-				+ ", mobile_No=" + mobile_No + ", ref_mobile_No=" + ref_mobile_No + ", ref_name=" + ref_name
-				+ ", email_id=" + email_id + ", pan_number=" + pan_number + ", adhar_no=" + adhar_no + ", DOB=" + DOB
-				+ ", dog=" + dog + ", hsn=" + hsn + ", purchase_amt=" + purchase_amt + ", gst=" + gst + ", gst_amt="
-				+ gst_amt + ", total_amt=" + total_amt + ", amount=" + amount + ", processing_fees=" + processing_fees
-				+ ", warranty=" + warranty + ", dep_amt=" + dep_amt + ", document=" + document + ", bal_amt=" + bal_amt
-				+ ", emi_amt=" + emi_amt + ", emi_from=" + emi_from + ", emi_to=" + emi_to + ", emi_month=" + emi_month
-				+ ", weekly_amt=" + weekly_amt + ", weekly_amt_day=" + weekly_amt_day + ", weekly_due_from="
-				+ weekly_due_from + ", weekly_due_to=" + weekly_due_to + ", daily_amt=" + daily_amt + ", daily_amt_day="
-				+ daily_amt_day + ", daily_due_from=" + daily_due_from + ", daily_due_to=" + daily_due_to
-				+ ", bank_name=" + bank_name + ", branch_name=" + branch_name + ", cheque_number=" + cheque_number
-				+ "]";
+		return "Customer [id=" + id + ", categoryId=" + categoryId + ", sellerName=" + sellerName + ", purchaseDate="
+				+ purchaseDate + ", customerName=" + customerName + ", presentAddress=" + presentAddress
+				+ ", nativeAddress=" + nativeAddress + ", contactNumber=" + contactNumber + ", referenceNumber="
+				+ referenceNumber + ", referenceName=" + referenceName + ", emailId=" + emailId + ", panNumber="
+				+ panNumber + ", adharNumber=" + adharNumber + ", dateOfBirth=" + dateOfBirth + ", descriptionOfGoods="
+				+ descriptionOfGoods + ", hsnNumber=" + hsnNumber + ", purchaseAmount=" + purchaseAmount + ", gstRate="
+				+ gstRate + ", gstAmount=" + gstAmount + ", totalAmount=" + totalAmount + ", amount=" + amount
+				+ ", processingFees=" + processingFees + ", warranty=" + warranty + ", depositAmount=" + depositAmount
+				+ ", document=" + document + ", balAmount=" + balAmount + ", emiAmount=" + emiAmount + ", emiFrom="
+				+ emiFrom + ", emiTo=" + emiTo + ", emiMonth=" + emiMonth + ", weeklyAmount=" + weeklyAmount
+				+ ", weeklyAmtDay=" + weeklyAmtDay + ", weeklyDueFrom=" + weeklyDueFrom + ", weeklyDueTo=" + weeklyDueTo
+				+ ", dailyAmount=" + dailyAmount + ", dailyAmountDay=" + dailyAmountDay + ", dailyDueFrom="
+				+ dailyDueFrom + ", dailyDueTo=" + dailyDueTo + ", bankName=" + bankName + ", branchName=" + branchName
+				+ ", chequeNumber=" + chequeNumber + "]";
 	}
-	
-	
 	
 	
 	
